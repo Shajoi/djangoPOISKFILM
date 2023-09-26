@@ -66,3 +66,38 @@ class Kino(models.Model):
             res += a.lname+' '
         return res
     display_actors.short_description = 'Актёры'
+
+
+##############################################################################################################
+
+class Statuspet(models.Model):
+    VIBOR = (('молодой','молодой'),('юный','юный'),('пожилой','пожилой'))
+    name = models.CharField(max_length=20, choices=VIBOR, verbose_name='Статус')
+
+    def __str__(self):
+        return self.name
+
+
+class Countrypet(models.Model):
+    name = models.CharField(max_length=20, verbose_name='Имя')
+
+    def __str__(self):
+        return self.name
+
+
+class AgePet(models.Model):
+    choise = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),('6','6'),('7','7'),('8','8'),('9','9'),('10','10'))
+    rate = models.CharField(max_length=20, choices=choise, verbose_name='Возраст')
+
+    def __str__(self):
+        return self.rate
+
+class Klinika(models.Model):
+    title = models.CharField(max_length=20, verbose_name='Название')
+    agepet = models.ForeignKey(AgePet, on_delete=models.SET_NULL, null=True, verbose_name='Возраст')
+    country = models.ForeignKey(Countrypet, on_delete=models.SET_NULL, null=True, verbose_name='Страна')
+    problemsummary = models.TextField(max_length=500, verbose_name='Проблема')
+    status = models.ForeignKey(Statuspet, on_delete=models.SET_DEFAULT, default=1, verbose_name='Статус')
+
+    def __str__(self):
+        return self.title
